@@ -1,0 +1,47 @@
+<section>
+  <form>
+    <mat-form-field ngclass="form-control">
+      <input matInput  type="text" placeholder="Filter" #searchCriteria>
+    </mat-form-field>
+    <button mat-raised-button (click)="searchBooks()" class="primary" type="button">Search</button>
+  </form>
+</section>
+
+<ng-container *ngIf="dataCount; else templateA">
+  <section class="results" >
+    <section class="listing" *ngFor="let book of books">
+      <img class="listing-photo" [src]="book.coverBase64" alt="Exterior photo of {{book.coverBase64}}">
+      <h1 class="listing-heading">{{ book.bookTitle}}</h1>
+      <h2 class="listing-location">{{ book.author }}</h2>
+      <h4>{{ book.publishDate | date:'MM/dd/yyyy' }}</h4>
+      <p class="listing-location">{{ book.bookDescription }}</p>
+    </section>
+  </section>
+</ng-container>
+<ng-template #templateA>
+<h1>No books Found</h1>
+</ng-template>
+
+  <!-- <table class="table" style="height: 500px; overflow: auto;">
+    <thead>
+      <tr>
+        <th scope="col">Book Title </th>
+        <th scope="col">Book Description</th>
+        <th scope="col">Author</th>
+        <th scope="col">Book Image</th>
+        <th scope="col">publish Date</th>
+        <th scope="col">last Modified Date</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let book of books">
+            <td>{{book.bookTitle}}</td>
+            <td>{{book.bookDescription}}</td>
+            <td>{{book.author}}</td>
+            <td><img src= {{book.coverBase64}}  style="width:20%;height:20%;"/></td>
+            <td>{{book.publishDate}}</td> 
+            <td>{{book.lastModified}}</td>
+       </tr>
+    </tbody>
+</table> -->
