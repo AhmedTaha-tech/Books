@@ -17,13 +17,13 @@ export class SearchBooksComponent /*implements  OnInit , OnDestroy  */ {
   books: any = []
   booksResponseArray: any;
   pageNumber = 1;
-  isLoading = false;
+  loadMoreEnabled = false;
   dataCount: boolean;
   @ViewChild('searchCriteria') searchCriteria: ElementRef;
   constructor(private booksservice: BooksService) { }
 
   searchBooks() {
-    this.isLoading = false;
+    this.loadMoreEnabled = true;
     this.booksservice.GetBooks(1, this.searchCriteria.nativeElement.value)
       .subscribe(data => {
         console.log(data.booksData);
@@ -36,8 +36,8 @@ export class SearchBooksComponent /*implements  OnInit , OnDestroy  */ {
   }
   @HostListener("window:scroll", ["$event"])
   getScrollHeight(): void {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !this.isLoading) {
-      if (!this.isLoading) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && this.loadMoreEnabled) {
+      debugger;
         console.log("bottom of the page");
         this.pageNumber += 1;
         this.fetchData()
@@ -45,22 +45,23 @@ export class SearchBooksComponent /*implements  OnInit , OnDestroy  */ {
             tap()
           )
           .subscribe();
-      }
     }
   }
 
   fetchData() {
-    this.isLoading = true;
     return of(
       this.booksservice.GetBooks(this.pageNumber, this.searchCriteria.nativeElement.value)
         .subscribe(data => {
           this.booksResponseArray = data.booksData;
-          this.books.push(data.booksData);
+          debugger;
           if (this.booksResponseArray != '' && this.booksResponseArray != undefined && this.booksResponseArray != null) {
+            this.loadMoreEnabled = true;
             for (var i = 0; i < this.booksResponseArray.length; i++) {
               this.books.push(this.booksResponseArray[i]);
             }
           }
+            else
+              this.loadMoreEnabled = false;
         }), (err: HttpErrorResponse) => {
           console.log(err);
         });

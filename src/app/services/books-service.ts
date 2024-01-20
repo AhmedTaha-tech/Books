@@ -13,7 +13,7 @@ export class BooksService{
     constructor(private http:HttpClient){}
     GetBooks(pageIndex:number,searchCriteria:string):Observable<IBooksData>{
         //const URL = `${environment.BaseURL}/api/V1/GetBooks?SearchCriteria=Osvteviuhhpa&PageIndex=1&PageSize=10`;
-        const URL = `${this.baseURL}/api/V1/GetBooks?SearchCriteria=${searchCriteria}&PageIndex=${pageIndex}&PageSize=100`;
+        const URL = `${this.baseURL}/api/V1/GetBooks?SearchCriteria=${searchCriteria}&PageIndex=${pageIndex}&PageSize=20`;
         return this.http.get<IBooksData>(URL);
     }
 }
